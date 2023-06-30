@@ -25,7 +25,6 @@ namespace MiniHubApi.Infra.Soap
 
         public async Task<string> PostSoapAsync(string xml)
         {
-
             var messageBytes = Encoding.UTF8.GetBytes(xml);
             var content = new ByteArrayContent(messageBytes);
             content.Headers.ContentType = new MediaTypeHeaderValue("text/xml");
