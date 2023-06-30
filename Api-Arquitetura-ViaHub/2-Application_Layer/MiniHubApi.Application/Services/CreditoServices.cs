@@ -2,6 +2,7 @@
 using MiniHubApi.Application.Dtos;
 using MiniHubApi.Application.Interfaces;
 using MiniHubApi.Infra.Soap;
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -22,8 +23,8 @@ namespace MiniHubApi.Application.Services
         public async Task<List<StatusCreditoResponseDto>> ObterStatusCredito(StatusCreditoResquestDto dto)
         {
             _soapService.Url = "https://viacep.com.br/ws/01001000/xml/";
-            var result = await _soapService.PostSoapAsync(string.Empty);
-            // convert string to stream
+            var result = await _soapService.GetSoapAsync(string.Empty);
+
             byte[] byteArray = Encoding.UTF8.GetBytes(result);
             MemoryStream stream = new MemoryStream(byteArray);
 
@@ -37,6 +38,29 @@ namespace MiniHubApi.Application.Services
             });
 
             return response;
+        }
+
+        public Endereco? GetRetornandoUmStringXML()
+        {
+            _soapService.Url = "https://viacep.com.br/ws/01001000/xml/";
+            var result = _soapService.GetSoapAsync(string.Empty).Result;
+            // convert string to stream
+            byte[] byteArray = Encoding.UTF8.GetBytes(result);
+            MemoryStream stream = new MemoryStream(byteArray);
+
+            var endereco = new XmlSerializer(typeof(Endereco)).Deserialize(stream) as Endereco;
+
+
+
+            return endereco;
+        }
+
+        public Endereco? GetRetornandoUmObjeto()
+        {
+            _soapService.Url = "https://viacep.com.br/ws/01001000/xml/";
+            var result = _soapService.GetSoapAsync<Endereco>(null).Result;
+
+            return result;
         }
     }
 
@@ -57,7 +81,7 @@ namespace MiniHubApi.Application.Services
         public string Bairro { get; set; }
 
         [XmlElement("localidade")]
-        public string Localidade{ get; set; }
+        public string Localidade { get; set; }
 
         [XmlElement("uf")]
         public string Uf { get; set; }

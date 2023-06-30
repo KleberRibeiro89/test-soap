@@ -10,10 +10,12 @@ namespace MiniHubApi.Infra.Soap
     {
         string Url { get; set; }
 
-        string Token{ get; set; }
+        string Token { get; set; }
 
+        Task<string> GetSoapAsync(string xml);
         Task<string> PostSoapAsync(string xml);
 
         Task<T> PostSoapAsync<T>(T xml);
+        Task<T> GetSoapAsync<T>(T xml);
     }
 }

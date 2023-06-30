@@ -45,5 +45,17 @@ namespace MiniHubApi.Host.Controllers
             }
             catch(Exception ex) { return Problem(ex.Message); }
         }
+
+        [HttpGet("GetRetornandoUmStringXML")]
+        public async Task<ActionResult> GetRetornandoUmStringXML()
+        {
+            return Ok(_creditoService.GetRetornandoUmStringXML());
+        }
+
+        [HttpGet("GetRetornandoUmObjeto")]
+        public async Task<ActionResult> GetRetornandoUmObjeto()
+        {
+            return Ok(_creditoService.GetRetornandoUmObjeto());
+        }
     }
 }
